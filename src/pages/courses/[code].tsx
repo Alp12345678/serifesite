@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import questionsData from "../../data/questions.json";
 import Link from "next/link";
-Link
 
 // Dersler listesi
 const courses = [
