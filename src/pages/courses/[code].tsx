@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import questionsData from "../../data/questions.json";
+import Link from "next/link";
+Link
 
 // Dersler listesi
 const courses = [
@@ -77,6 +79,20 @@ export default function CourseTest() {
     setElapsedTime(`${hours} saat ${minutes} dakika ${seconds} saniye`);
   };
 
+  const calculateResults = () => {
+    let correct = 0;
+    let empty = 0;
+    questions.forEach((q, i) => {
+      if (!userAnswers[i]) {
+        empty++;
+      } else if (q.answer === userAnswers[i]) {
+        correct++;
+      }
+    });
+    const wrong = questions.length - correct - empty;
+    return { correct, wrong, empty };
+  };
+
   const closeModal = () => setShowModal(false);
 
   return (
@@ -132,10 +148,13 @@ export default function CourseTest() {
             </div>
           ))
         ) : (
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-green-600 mb-4">Test Sonuçları</h2>
-            <p>Toplam Süre: {elapsedTime}</p>
-          </div>
+<><div className="text-center">
+              <h2 className="text-2xl font-bold text-green-600 mb-4">Test Sonuçları</h2>
+              <p className="font-bold text-3xl mb-2">Toplam Süre: {elapsedTime}</p>
+              <p className="font-bold text-2xl text-green-500">Doğru: {calculateResults().correct}</p>
+              <p className="font-bold text-2xl text-red-500">Yanlış: {calculateResults().wrong}</p>
+              <p className="font-bold text-2xl text-gray-500">Boş: {calculateResults().empty}</p>
+            </div><Link className="items-center justify-center flex mt-4 bg-blue-500 text-gray-100" href="/">Derslere Git</Link></>
         )}
 
         {!isTestFinished && (
